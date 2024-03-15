@@ -1,0 +1,60 @@
+﻿@model BE_U2_W3_Pizzeria.Models.Prodotti
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <img src="@Url.Content(Model.Immagine)" class="card-img-top img-fluid" alt="Immagine Prodotto">
+                <div class="card-body">
+                    <h2 class="card-title">Dettagli Prodotto</h2>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Ingredienti)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Ingredienti.Nome)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Nome)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PrezzoTotale)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.PrezzoTotale)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PrezzoIngredienti)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.PrezzoIngredienti)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.TempoConsegna)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.TempoConsegna)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <p>
+                        @Html.ActionLink("Modifica", "Edit", new { id = Model.IDProdotto }, new { @class = "btn btn-primary" }) |
+                        @Html.ActionLink("Torna alla Lista", "Index", new { @class = "btn btn-secondary" })
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

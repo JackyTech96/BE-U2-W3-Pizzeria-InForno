@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BE_U2_W3_Pizzeria.Models.Prodotti>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (TempData["CreateMess"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["CreateMess"]
+    </div>
+}
+
+
+<style>
+    body {
+        background-image: url('https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148707022.jpg?w=1380&t=st=1710510235~exp=1710510835~hmac=dcd9ff719735a5493db6a242f2fff39372cfde347bea6b4410abec9f5e7c6286');
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+
+<h2 class="text-white text-center mb-3">Il Nostro Menu</h2>
+
+<div class="container">
+
+    @if (User.IsInRole("admin"))
+    {
+        <div class="text-center mt-4">
+            @Html.ActionLink("Aggiungi Prodotto", "Create", "Prodotti", null, new { @class = "btn btn-success mb-3" })
+        </div>
+    }
+    <div class="row">
+        @foreach (var prodotto in Model)
+        {
+            <div class="col-xs-12 col-md-3 mb-4">
+                <div class="card h-100 text-dark">
+                    <img src="@prodotto.Immagine" class="card-img-top img-fluid" alt="@prodotto.Nome">
+                    <div class="card-body">
+                        <h5 class="card-title d-inline-block">@prodotto.Nome</h5>
+                        <span class="badge bg-dark">Prezzo: € @prodotto.PrezzoTotale</span>
+                    </div>
+                    <div class="card-footer">
+                        <form action="@Url.Action("AggiungiAlCarrello", "Carrello")" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="idProdotto" value="@prodotto.IDProdotto" />
+                            <input type="hidden" name="prezzoUnitario" value="@prodotto.PrezzoTotale" /> <!-- Aggiungi il prezzo unitario come campo nascosto -->
+                            <label for="quantita" class="mr-2">Quantità:</label>
+                            <input type="number" name="quantita" id="quantita" value="1" min="1" class="form-control mr-2 mb-3" style="width: 60px;" />
+                            <button style="background-color: #FF7323; color: #ffffff;" type="submit" class="btn btn-sm">Aggiungi al carrello</button>
+                            @if (User.IsInRole("admin"))
+                            {
+                                @Html.ActionLink("Modifica", "Edit", new { id = prodotto.IDProdotto }, new { @class = "btn btn-sm", style = "background-color: #FF7323; color: #ffffff;" })
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,128 @@
+﻿@model IEnumerable<BE_U2_W3_Pizzeria.Models.Ordini>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2 class="mb-3">Lista Ordini Clienti</h2>
+
+
+<table class="table text-white">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Utenti.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataOrdine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsEvaso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeDestinatario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Indirizzo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Provincia)
+        </th>
+        <th>
+            Costo Totale
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Utenti.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataOrdine)
+            </td>
+            <td>
+                @if (item.IsEvaso)
+                {
+                    <span>Evaso</span>
+                }
+                else
+                {
+                    @Html.ActionLink("Segna come Evaso", "SegnaEvaso", new { id = item.IDOrdine }, new { @class = "btn btn-sm", style = "background-color: #FF7323; color: #ffffff;" })
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeDestinatario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indirizzo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Provincia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostoTotale) <!-- Aggiungi questa riga per visualizzare il costo totale -->
+            </td>
+            <td>
+                @Html.ActionLink("Modifica", "Edit", new { id = item.IDOrdine }, new { @class = "btn", style = "background-color: #FF7323; color: #ffffff;" }) 
+                @Html.ActionLink("Dettagli", "Details", new { id = item.IDOrdine }, new { @class = "btn", style = "background-color: #FF7323; color: #ffffff;" }) 
+                @Html.ActionLink("Elimina", "Delete", new { id = item.IDOrdine }, new { @class = "btn", style = "background-color: #FF7323; color: #ffffff;" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="mt-3" id="numeroOrdiniEvasi"></div>
+
+<!-- Aggiungi un campo di input per selezionare la data -->
+<div>
+    <label for="data">Seleziona la data:</label>
+    <input type="date" id="data" name="data">
+    <button id="calcolaTotaleGiornata" class="btn btn-sm mb-1" style = "background-color: #FF7323; color: #ffffff;" }>Calcola Totale Giornata</button>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Chiamata AJAX per ottenere il numero totale di ordini evasi
+        $.ajax({
+            url: '/Ordini/NumeroOrdiniEvasi',
+            type: 'GET',
+            success: function (numeroOrdiniEvasi) {
+                console.log("Numero totale di ordini evasi:", numeroOrdiniEvasi);
+                // Aggiorna il contenuto dell'elemento HTML con il numero totale di ordini evasi
+                $('#numeroOrdiniEvasi').text("Numero totale di ordini evasi: " + numeroOrdiniEvasi);
+            },
+            error: function (xhr, status, error) {
+                console.error('Errore durante il recupero del numero totale di ordini evasi:', error);
+            }
+        });
+    });
+
+    // Gestisci il click sul pulsante per calcolare il totale della giornata
+    $('#calcolaTotaleGiornata').click(function () {
+        var data = $('#data').val(); // Ottieni la data dal campo di input
+
+        // Chiamata AJAX per ottenere il totale incassato per la data selezionata
+        $.ajax({
+            url: '/Ordini/TotaleIncassato',
+            type: 'GET',
+            data: { data: data },
+            success: function (totaleIncassato) {
+                console.log("Totale incassato per la data " + data + ":", totaleIncassato);
+                // Fai qualcosa con il totale incassato
+                // Ad esempio, aggiorna un elemento HTML per visualizzare il totale incassato
+                $('#totaleGiornata').text("Totale incassato per il " + data + ": " + totaleIncassato.toFixed(2) + " €");
+            },
+            error: function (xhr, status, error) {
+                console.error('Errore durante il recupero del totale incassato:', error);
+            }
+        });
+    });
+</script>
+
+<!-- Elemento HTML per visualizzare il totale incassato -->
+<div id="totaleGiornata"></div>

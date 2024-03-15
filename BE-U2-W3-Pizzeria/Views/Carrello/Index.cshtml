@@ -1,0 +1,68 @@
+﻿@model List<BE_U2_W3_Pizzeria.Models.Prodotti>
+
+@{
+    ViewBag.Title = "Carrello";
+}
+
+<h2>Carrello</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table text-white">
+        <thead>
+            <tr>
+                <th>Immagine</th>
+                <th>Nome</th>
+                <th>Quantità</th>
+                <th>Prezzo</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prodotto in Model)
+            {
+                <tr>
+                    <td><img src="@prodotto.Immagine" alt="@prodotto.Nome" style="max-height: 100px;" /></td>
+                    <td>@prodotto.Nome</td>
+                    <td>@prodotto.Quantita</td>
+                    <td>@(prodotto.PrezzoTotale * prodotto.Quantita)</td>
+                    <td>
+                        <form action="@Url.Action("Delete", "Carrello")" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@prodotto.IDProdotto" />
+                            <button type="submit" class="btn btn-danger">Rimuovi</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <h4>Dettagli dell'Ordine</h4>
+        <p>Costo Totale: <span>@Model.Sum(p => p.PrezzoTotale * p.Quantita)</span></p>
+
+        <form action="@Url.Action("Ordina", "Carrello")" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label for="nomeDestinatario">Nome Destinatario</label>
+                <input type="text" id="nomeDestinatario" name="nomeDestinatario" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="provincia">Provincia</label>
+                <input type="text" id="provincia" name="provincia" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="indirizzo">Indirizzo di Spedizione</label>
+                <input type="text" id="indirizzo" name="indirizzo" class="form-control" required />
+            </div>
+
+            <button  style = "background-color: #FF7323; color: #ffffff;"  type="submit" class="btn my-3">Concludi Ordine</button>
+        </form>
+    </div>
+}
+else
+{
+    <p>Il carrello è vuoto.</p>
+}

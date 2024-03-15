@@ -1,0 +1,65 @@
+﻿@model BE_U2_W3_Pizzeria.Models.Ordini
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ordini</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Utenti.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utenti.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataOrdine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataOrdine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsEvaso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsEvaso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomeDestinatario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomeDestinatario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indirizzo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indirizzo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Provincia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Provincia)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Torna alla lista dei tuoi ordini", "OrdiniUtente",null, new { @class = "btn", style = "background-color: #FF7323; color: #ffffff;" })
+</p>

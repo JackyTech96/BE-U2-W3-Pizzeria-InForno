@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BE_U2_W3_Pizzeria.Models.DettagliOrdine>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ordini.NomeDestinatario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prodotti.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantita)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ordini.NomeDestinatario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prodotti.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantita)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IDDettaglioOrdine }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IDDettaglioOrdine }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IDDettaglioOrdine })
+        </td>
+    </tr>
+}
+
+</table>

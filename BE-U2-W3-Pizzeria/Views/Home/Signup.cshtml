@@ -1,0 +1,47 @@
+﻿@model BE_U2_W3_Pizzeria.Models.Utenti
+
+@{
+    ViewBag.Title = "Signup";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card text-dark">
+                    <div class="card-header">Registrati</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", id = "username", placeholder = "" } })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", id = "password", placeholder = "", type = "password" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <button  style = "background-color: #FF7323; color: #ffffff;"  type="submit" class="btn">Crea l'account</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="@Url.Action("Login")" class="btn" style="color: #ffffff; text-decoration:underline;">Possiedi già un account? Fai il login da qui.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BE_U2_W3_Pizzeria.Models.Ordini>
+
+@{
+    ViewBag.Title = "Ordini Utente";
+}
+
+<h2>Ordini Utente</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table text-white">
+        <thead>
+            <tr>
+                <th>ID Ordine</th>
+                <th>Data Ordine</th>
+                <th>Stato</th>
+                <th>Destinatario</th>
+                <th>Indirizzo</th>
+                <th>Provincia</th>
+                <th>Costo Totale</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ordine in Model)
+            {
+                <tr>
+                    <td>@ordine.IDOrdine</td>
+                    <td>@ordine.DataOrdine</td>
+                    <td>@(ordine.IsEvaso ? "Completato" : "In attesa")</td>
+                    <td>@ordine.NomeDestinatario</td>
+                    <td>@ordine.Indirizzo</td>
+                    <td>@ordine.Provincia</td>
+                    <td>@ordine.CostoTotale</td>
+                    <td>
+                        @Html.ActionLink("Dettagli", "Details", new { id = ordine.IDOrdine }, new { @class = "btn", style = "background-color: #FF7323; color: #ffffff;" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Non ci sono ordini per questo utente.</p>
+}

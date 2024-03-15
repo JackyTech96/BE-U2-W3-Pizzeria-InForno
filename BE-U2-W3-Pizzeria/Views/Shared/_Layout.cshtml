@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - Applicazione ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+
+        body {
+            background-image: url('https://images.unsplash.com/photo-1517999144091-3d9dca6d1e43?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            color:white
+        }
+
+        table{
+            background-color: black;
+            color:white
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            <img src="https://i.pinimg.com/564x/38/49/c7/3849c7b63abaa8d7bee746cea021eee5.jpg" alt="Logo Pizzeria" class="img-fluid me-3 rounded-3" height="40" width="50">
+            @Html.ActionLink("In Forno", "Index", "Home", new { area = "" }, new { @class = "navbar-brand pb-2" })
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Attiva/Disattiva spostamento" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link text-white" })</li>
+                    <li>@Html.ActionLink("Prodotti", "Index", "Prodotti", new { area = "" }, new { @class = "nav-link text-white" })</li>
+
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>@Html.ActionLink("Ordini", "Index", "Ordini", new { area = "" }, new { @class = "nav-link text-white" })</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("I Tuoi Ordini", "OrdiniUtente", "Ordini", new { area = "" }, new { @class = "nav-link text-white" })</li>
+                    }
+
+
+                    <li style="margin-left:auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "nav-link text-white" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Registrati", "Signup", "Home", new { area = "" }, new { @class = "nav-link text-white" })
+                        }
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li style="padding-top: 5px;" class="me-2">
+                            <span class="nav-item">
+                                <a class="p-0" href="@Url.Action("OrdiniUtente", "Ordini")" class="nav-link" title="Ordini Utente">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#FF7323" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                                    </svg>
+                                </a>
+                            </span>
+                        </li>
+                        <li style="position: relative;">
+                            <span class="nav-item">
+                                <a href="@Url.Action("Index", "Carrello")" class="nav-link" title="Carrello">
+                                    <svg style="margin-bottom: 6px" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#FF7323" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                    </svg>
+                                </a>
+                            </span>
+                            @if (Session["cart"] != null && (Session["cart"] as List<BE_U2_W3_Pizzeria.Models.Prodotti>).Any())
+                            {
+                                var cart = Session["cart"] as List<BE_U2_W3_Pizzeria.Models.Prodotti>;
+                                int totalQuantity = cart.Sum(p => p.Quantita); // Calcola la quantità totale nel carrello
+                                <span class="badge bg-danger position-absolute rounded-pill" style="top: 0px; right: -5px;">
+                                    @totalQuantity
+                                </span>
+                            }
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li>
+                            @Html.ActionLink("Accedi", "Login", "Home", new { area = "" }, new { @class = "btn", style = "background-color: #FF7323; color: #ffffff;" })
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - In Forno</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,143 @@
+﻿
+<head>
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1611915365928-565c527a0590?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-section {
+            background-color: #212121; /* Colore di sfondo del hero section */
+            padding: 50px 0; /* Spaziatura interna */
+        }
+
+            .hero-section h1 {
+                font-size: 3rem;
+                color: #FF4700; /* Colore del titolo arancione */
+            }
+
+            .hero-section p {
+                font-size: 1.25rem;
+                color: white; /* Colore del testo bianco */
+            }
+
+        section {
+            padding: 40px;
+        }
+
+
+        .container {
+            max-width: 1200px;
+        }
+
+        h2 {
+            color: #212121;
+            text-align: center;
+        }
+
+        h5 {
+            color: #FF4700;
+        }
+
+        .feature {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            width: calc(33.33% - 20px);
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+            .feature-item:hover {
+                transform: scale(1.05);
+            }
+
+            .feature-item img {
+                max-width: 100%;
+                height: auto;
+                margin-bottom: 15px;
+            }
+
+        .card {
+            border: none;
+        }
+
+        .card-body {
+            background-color: #212121;
+        }
+
+        /* Applica lo stile hover direttamente alle card */
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Stile per i paragrafi delle feature dei ristoranti */
+        .feature-item p {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="mb-4">Ristorante Pizzeria In Forno</h1>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <p>Ciao, @User.Identity.Name! Benvenuto nella nostra pizzeria.</p>
+            }
+        </div>
+        @Html.ActionLink("Scopri il nostro Menu", "Index", "Prodotti", new { area = "" }, new { @class = "btn  btn-lg mt-3", style = "background-color: #FF7323; color: #ffffff;" })
+    </div>
+
+    <!-- Sezione "Dove Trovarci" -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center text-white mb-4">Dove Siamo</h2>
+            <div class="row">
+                <div class="col-sm-12 col-lg-4 mb-4">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Pizzeria Milano">
+                        <div class="card-body">
+                            <h5 class="card-title">Milano</h5>
+                            <p class="card-text">Viale Tunisia, 6</p>
+                            <p class="card-text">Lun-Gio: 12.30-14.30 / 19:00-23:00</p>
+                            <p class="card-text">Ven-Dom: 12.30-15.00 / 19:00-23:30</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-4 mb-4">
+                    <div class="card">
+                        <img src="https://e39eyh4aj96.exactdn.com/wp-content/uploads/2022/09/RM-Newton_principale.jpg?strip=all&lossy=1&fit=1024%2C683&ssl=1" class="card-img-top" alt="Pizzeria Roma">
+                        <div class="card-body">
+                            <h5 class="card-title">Roma</h5>
+                            <p class="card-text">Via Piave, 9</p>
+                            <p class="card-text">Lun-Gio: 12.30-14.30 / 19:00-23:00</p>
+                            <p class="card-text">Ven-Dom: 12.30-15.00 / 19:00-23:30</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-4 mb-4">
+                    <div class="card">
+                        <img src="https://e39eyh4aj96.exactdn.com/wp-content/uploads/2021/12/Principale-6.jpg?strip=all&lossy=1&ssl=1" class="card-img-top" alt="Pizzeria Napoli">
+                        <div class="card-body">
+                            <h5 class="card-title">Napoli</h5>
+                            <p class="card-text">Via Gennaro Serra, 20</p>
+                            <p class="card-text">Lun-Gio: 12.30-14.30 / 19:00-23:00</p>
+                            <p class="card-text">Ven-Dom: 12.30-15.00 / 19:00-23:30</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </body>
