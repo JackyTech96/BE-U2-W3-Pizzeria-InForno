@@ -97,54 +97,58 @@ namespace BE_U2_W3_Pizzeria.Controllers
         [HttpPost]
         public ActionResult Ordina(string nomeDestinatario, string indirizzo, string provincia)
         {
-            ModelDbContext db = new ModelDbContext();
-            var userId = db.Utenti.FirstOrDefault(u => u.Username == User.Identity.Name).IDUtente;
+            // Controlla se l'utente è autenticato e recupera il suo ID
+            var userId = db.Utenti.FirstOrDefault(u => u.Username == User.Identity.Name)?.IDUtente;
 
+            // Recupera il carrello dalla sessione
             var cart = Session["cart"] as List<Prodotti>;
-            if (cart != null && cart.Any())
+            if (userId != null && cart != null && cart.Any())
             {
+                // Crea un nuovo ordine
                 Ordini newOrder = new Ordini();
                 newOrder.DataOrdine = DateTime.Now;
                 newOrder.IsEvaso = false;
-                newOrder.IDUtente = userId; // Utilizza IDUtente anziché FK_idUtente
+                newOrder.IDUtente = userId.Value; // Utilizza IDUtente anziché FK_idUtente
                 newOrder.NomeDestinatario = nomeDestinatario;
                 newOrder.Indirizzo = indirizzo;
                 newOrder.Provincia = provincia;
 
+                // Aggiungi l'ordine al database
                 db.Ordini.Add(newOrder);
                 db.SaveChanges();
 
+                // Aggiungi i dettagli dell'ordine per ciascun prodotto nel carrello
                 foreach (var product in cart)
                 {
-                    DettagliOrdine newDetail = new DettagliOrdine(); 
-                    newDetail.IDOrdine = newOrder.IDOrdine; 
-                    newDetail.IDProdotto = product.IDProdotto; 
-                    newDetail.Quantita = Convert.ToInt32(product.Quantita); ;
+                    DettagliOrdine newDetail = new DettagliOrdine();
+                    newDetail.IDOrdine = newOrder.IDOrdine;
+                    newDetail.IDProdotto = product.IDProdotto;
+                    newDetail.Quantita = Convert.ToInt32(product.Quantita);
 
                     // Calcola il prezzo totale del singolo prodotto e aggiungilo al costo totale dell'ordine
                     decimal prezzoProdotto = product.PrezzoTotale;
                     newOrder.CostoTotale += prezzoProdotto;
 
-
-                    db.DettagliOrdine.Add(newDetail); 
+                    // Aggiungi il dettaglio dell'ordine al database
+                    db.DettagliOrdine.Add(newDetail);
                     db.SaveChanges();
                 }
-                cart.Clear();
-                var tempoAttesa = cart.FirstOrDefault()?.TempoConsegna ?? 0;
 
-                // Reindirizza alla vista di conferma dell'ordine e passa il tempo di attesa come parametro
-                return RedirectToAction("ConfermaOrdine", new { tempoAttesa = tempoAttesa });
+                // Svuota il carrello
+                cart.Clear();
+
+                // Reindirizza alla vista di conferma dell'ordine
+                return RedirectToAction("ConfermaOrdine");
             }
 
-            // Nel caso in cui non ci siano elementi nel carrello o l'utente non sia valido, gestisci l'errore o la situazione appropriata
-            // Ad esempio, reindirizza alla pagina principale con un messaggio di errore
-            TempData["ErrorMessage"] = "Errore nell'ordinazione. Assicurati di avere elementi nel carrello e di essere autenticato.";
+            // Nel caso in cui l'utente non sia autenticato o il carrello sia vuoto, gestisci l'errore appropriato
+            TempData["ErrorMessage"] = "Errore nell'ordinazione. Assicurati di essere autenticato e di avere elementi nel carrello.";
             return RedirectToAction("Index", "Home");
         }
 
         public ActionResult ConfermaOrdine()
         {
-            ViewBag.TempoAttesa = 30;
+            ViewBag.TempoAttesa = 30; // Tempo di attesa stimato
             return View();
         }
     }

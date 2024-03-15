@@ -84,7 +84,7 @@ namespace BE_U2_W3_Pizzeria.Controllers
         // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IDProdotto,IDIngrediente,Nome,Immagine,PrezzoTotale,PrezzoIngredienti,TempoConsegna")] Prodotti prodotti)
+        public ActionResult Edit([Bind(Include = "IDProdotto,IDIngrediente,Nome,Immagine,PrezzoTotale,TempoConsegna")] Prodotti prodotti)
         {
             if (ModelState.IsValid)
             {

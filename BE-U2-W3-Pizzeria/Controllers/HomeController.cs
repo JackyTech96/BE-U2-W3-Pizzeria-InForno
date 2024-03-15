@@ -51,12 +51,12 @@ namespace BE_U2_W3_Pizzeria.Controllers
                 {
                     System.Diagnostics.Debug.WriteLine("Errore: ");
                     FormsAuthentication.SetAuthCookie(username, false);
-                    TempData["LoginMess"] = "Login effettuato con successo";
+                    ViewBag.AuthSuccess = "Login effettuato con successo";
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    TempData["LoginFail"] = "Username o password errati";
+                    ViewBag.AuthError = "Username o password errati";
                     return View();
                 }
             }

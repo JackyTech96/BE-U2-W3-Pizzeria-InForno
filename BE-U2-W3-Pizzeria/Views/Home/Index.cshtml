@@ -54,13 +54,15 @@
             margin-bottom: 20px;
             background-color: #ffffff;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+            transition: transform 0.3s, box-shadow 0.3s; 
         }
 
             .feature-item:hover {
-                transform: scale(1.05);
+                transform: translateY(-5px); 
+                box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1); 
             }
+
 
             .feature-item img {
                 max-width: 100%;
@@ -90,10 +92,11 @@
 <body>
     <div class="hero-section">
         <div class="container">
-            <h1 class="mb-4">Ristorante Pizzeria In Forno</h1>
+            <h1 class="mb-4 display-4">Ristorante Pizzeria In Forno</h1>
+            <p class="lead">Esplora il nostro menu ricco di prelibatezze artigianali, dalla tradizionale Margherita alle creazioni gourmet più sorprendenti.</p>
             @if (User.Identity.IsAuthenticated)
             {
-                <p>Ciao, @User.Identity.Name! Benvenuto nella nostra pizzeria.</p>
+                <p>Ciao, <span class="fw-bold">@User.Identity.Name</span>! Benvenuto nella nostra pizzeria.</p>
             }
         </div>
         @Html.ActionLink("Scopri il nostro Menu", "Index", "Prodotti", new { area = "" }, new { @class = "btn  btn-lg mt-3", style = "background-color: #FF7323; color: #ffffff;" })

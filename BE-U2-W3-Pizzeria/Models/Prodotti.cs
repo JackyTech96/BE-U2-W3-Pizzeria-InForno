@@ -20,19 +20,21 @@ namespace BE_U2_W3_Pizzeria.Models
 
         public int IDIngrediente { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Il campo Nome del Prodotto è obbligatorio.")]
         [StringLength(255)]
-        [Display(Name = "Nome del Prodotto")] // Modifica qui
+        [Display(Name = "Nome del Prodotto")]
         public string Nome { get; set; }
 
-        [Required]
-        [Display(Name = "Immagine del Prodotto")] // Modifica qui
+        [Required(ErrorMessage = "Il campo Immagine del Prodotto è obbligatorio.")]
+        [Display(Name = "Immagine del Prodotto")]
         public string Immagine { get; set; }
 
-        [Display(Name = "Prezzo Totale")] // Modifica qui
+        [Display(Name = "Prezzo Totale")]
+        [Required(ErrorMessage = "Il campo Prezzo Totale è obbligatorio.")]
         public decimal PrezzoTotale { get; set; }
 
-        [Display(Name = "Tempo di Consegna(minuti)")] // Modifica qui
+        [Display(Name = "Tempo di Consegna(minuti)")]
+        [Required(ErrorMessage = "Il campo Tempo di Consegna è obbligatorio.")]
         public int TempoConsegna { get; set; } = 30;
 
         [Display(Name = "Quantità")]

@@ -51,18 +51,55 @@
             </div>
             <div class="form-group">
                 <label for="provincia">Provincia</label>
-                <input type="text" id="provincia" name="provincia" class="form-control" required />
+                <select id="provincia" name="provincia" class="form-control" required>
+                    <option value="">Seleziona una provincia</option>
+                    <option value="AN">Ancona</option>
+                    <option value="AR">Arezzo</option>
+                    <option value="AV">Avellino</option>
+                    <option value="BG">Bergamo</option>
+                    <option value="BN">Benevento</option>
+                    <option value="BN">Benevento</option>
+                    <option value="BO">Bologna</option>
+                    <option value="BS">Brescia</option>
+                    <option value="CS">Cosenza</option>
+                    <option value="CT">Catania</option>
+                    <option value="CT">Como</option>
+                    <option value="FG">Foggia</option>
+                    <option value="FI">Firenze</option>
+                    <option value="LE">Lecce</option>
+                    <option value="MI">Milano</option>
+                    <option value="NA">Napoli</option>
+                    <option value="PA">Palermo</option>
+                    <option value="PD">Padova</option>
+                    <option value="PE">Pescara</option>
+                    <option value="PG">Perugia</option>
+                    <option value="RC">Reggio Calabria</option>
+                    <option value="RI">Rieti</option>
+                    <option value="RM">Roma</option>
+                    <option value="SA">Salerno</option>
+                    <option value="SI">Siena</option>
+                    <option value="TA">Taranto</option>
+                    <option value="TE">Teramo</option>
+                    <option value="TO">Torino</option>
+                    <option value="TR">Terni</option>
+                    <option value="VR">Verona</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="indirizzo">Indirizzo di Spedizione</label>
                 <input type="text" id="indirizzo" name="indirizzo" class="form-control" required />
             </div>
 
-            <button  style = "background-color: #FF7323; color: #ffffff;"  type="submit" class="btn my-3">Concludi Ordine</button>
+            <button style="background-color: #FF7323; color: #ffffff;" type="submit" class="btn my-3">Concludi Ordine</button>
         </form>
     </div>
 }
 else
 {
     <p>Il carrello è vuoto.</p>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

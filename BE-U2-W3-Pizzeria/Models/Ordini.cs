@@ -25,17 +25,18 @@ namespace BE_U2_W3_Pizzeria.Models
 
         public bool IsEvaso { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Il campo Nome Destinatario è obbligatorio.")]
         [StringLength(50)]
         public string NomeDestinatario { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Il campo Indirizzo è obbligatorio.")]
         public string Indirizzo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Il campo Provincia deve contenere esattamente 2 caratteri.")]
         [StringLength(2)]
         public string Provincia { get; set; }
 
+        [Required(ErrorMessage = "Il campo Costo Totale è obbligatorio.")]
         public decimal CostoTotale { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

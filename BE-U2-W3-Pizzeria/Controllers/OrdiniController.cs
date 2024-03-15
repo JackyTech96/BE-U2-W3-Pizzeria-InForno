@@ -18,6 +18,7 @@ namespace BE_U2_W3_Pizzeria.Controllers
         // GET: Ordini
         public ActionResult Index()
         {
+            // Recupera tutti gli ordini dal database, inclusi i dati degli utenti associati
             var ordini = db.Ordini.Include(o => o.Utenti);
             return View(ordini.ToList());
         }
@@ -29,6 +30,7 @@ namespace BE_U2_W3_Pizzeria.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            // Trova l'ordine corrispondente all'ID fornito
             Ordini ordini = db.Ordini.Find(id);
             if (ordini == null)
             {
@@ -40,17 +42,17 @@ namespace BE_U2_W3_Pizzeria.Controllers
         // GET: Ordini/Create
         public ActionResult Create()
         {
+            // Ottiene la lista degli utenti per il menu a discesa
             ViewBag.IDUtente = new SelectList(db.Utenti, "IDUtente", "Username");
             return View();
         }
 
         // POST: Ordini/Create
-        // Per la protezione da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
-        // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IDOrdine,IDUtente,DataOrdine,IsEvaso,NomeDestinatario,Indirizzo,Provincia")] Ordini ordini)
         {
+            // Verifica se il modello è valido e, in caso affermativo, aggiunge l'ordine al database
             if (ModelState.IsValid)
             {
                 db.Ordini.Add(ordini);
@@ -69,6 +71,7 @@ namespace BE_U2_W3_Pizzeria.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            // Trova l'ordine corrispondente all'ID fornito per l'editing
             Ordini ordini = db.Ordini.Find(id);
             if (ordini == null)
             {
@@ -79,12 +82,11 @@ namespace BE_U2_W3_Pizzeria.Controllers
         }
 
         // POST: Ordini/Edit/5
-        // Per la protezione da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
-        // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IDOrdine,IDUtente,DataOrdine,IsEvaso,NomeDestinatario,Indirizzo,Provincia,CostoTotale")] Ordini ordini)
         {
+            // Verifica se il modello è valido e, in caso affermativo, esegue la modifica dell'ordine nel database
             if (ModelState.IsValid)
             {
                 db.Entry(ordini).State = EntityState.Modified;
@@ -102,6 +104,7 @@ namespace BE_U2_W3_Pizzeria.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            // Trova l'ordine corrispondente all'ID fornito per la cancellazione
             Ordini ordini = db.Ordini.Find(id);
             if (ordini == null)
             {
@@ -115,6 +118,7 @@ namespace BE_U2_W3_Pizzeria.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Trova e rimuove l'ordine corrispondente all'ID fornito
             Ordini ordini = db.Ordini.Find(id);
             db.Ordini.Remove(ordini);
             db.SaveChanges();
@@ -130,6 +134,7 @@ namespace BE_U2_W3_Pizzeria.Controllers
             base.Dispose(disposing);
         }
 
+        // Restituisce gli ordini associati all'utente corrente
         public ActionResult OrdiniUtente()
         {
             var userId = db.Utenti.FirstOrDefault(u => u.Username == User.Identity.Name).IDUtente;
@@ -140,7 +145,7 @@ namespace BE_U2_W3_Pizzeria.Controllers
             return View(ordini.ToList());
         }
 
-
+        // Segna un ordine come evaso
         public ActionResult SegnaEvaso(int id)
         {
             var ordine = db.Ordini.Find(id);
@@ -158,12 +163,14 @@ namespace BE_U2_W3_Pizzeria.Controllers
             return RedirectToAction("Index");
         }
 
+        // Restituisce il numero di ordini evasi
         public ActionResult NumeroOrdiniEvasi()
         {
             int numeroOrdiniEvasi = db.Ordini.Count(o => o.IsEvaso == true);
             return Json(numeroOrdiniEvasi, JsonRequestBehavior.AllowGet);
         }
 
+        // Restituisce il totale incassato per una determinata data
         public ActionResult TotaleIncassato(DateTime data)
         {
             // Estrai la data senza l'ora
@@ -178,4 +185,3 @@ namespace BE_U2_W3_Pizzeria.Controllers
         }
     }
 }
-
